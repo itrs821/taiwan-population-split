@@ -1,5 +1,7 @@
 # 台灣人口分割線
 
+**網站：https://itrs821.github.io/taiwan-population-split/**
+
 在台灣本島地圖上畫一條直線，把人口切成兩半。拖曳線條可以平移，拖曳兩端的圓鈕可以旋轉；左側面板會即時顯示兩側的人口、面積和人口密度，以及這條線切過哪些縣市。
 
 靈感來自英國的 [MapSplit](https://puntofisso.net/MapSplit/) 和胡煥庸線。
@@ -61,13 +63,13 @@ data-raw/           ← 原始人口 CSV
 
 ## 發佈到 GitHub Pages
 
-1. 在 GitHub 建立新的 repository，然後推送：
+1. 在 GitHub 建立名為 `taiwan-population-split` 的空 repository，然後推送：
    ```bash
-   git remote add origin https://github.com/<你的帳號>/taiwan-population-split.git
+   git remote add origin https://github.com/itrs821/taiwan-population-split.git
    git push -u origin main
    ```
 2. 到 repository 的 **Settings → Pages**，把 **Source** 設成 **GitHub Actions**
-3. 等 Actions 跑完，網站就會出現在 `https://<你的帳號>.github.io/taiwan-population-split/`
+3. 等 Actions 跑完，網站就會出現在 `https://itrs821.github.io/taiwan-population-split/`
 
 `update-data.yml` 會在每月 20 日自動抓新資料並提交，也可以在 Actions 頁面手動執行。
 

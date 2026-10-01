@@ -6,7 +6,7 @@ import {
 } from './split.js';
 
 // 發佈到 GitHub 後填入，頁尾會顯示「原始碼」連結
-const REPO_URL = '';
+const REPO_URL = 'https://github.com/itrs821/taiwan-population-split';
 
 const DENSITY_BREAKS = [10, 50, 200, 1000, 5000, 20000]; // 人/km²
 const DENSITY_LABELS = ['<10', '10', '50', '200', '1千', '5千', '2萬'];

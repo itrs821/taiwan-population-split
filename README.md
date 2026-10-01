@@ -61,17 +61,6 @@ data-raw/           ← 原始人口 CSV
 .github/workflows/  ← 自動部署、每月更新資料
 ```
 
-## 發佈到 GitHub Pages
-
-1. 在 GitHub 建立名為 `taiwan-population-split` 的空 repository，然後推送：
-   ```bash
-   git remote add origin https://github.com/itrs821/taiwan-population-split.git
-   git push -u origin main
-   ```
-2. 到 repository 的 **Settings → Pages**，把 **Source** 設成 **GitHub Actions**
-3. 等 Actions 跑完，網站就會出現在 `https://itrs821.github.io/taiwan-population-split/`
-
-`update-data.yml` 會在每月 20 日自動抓新資料並提交，也可以在 Actions 頁面手動執行。
 
 ## 授權
 

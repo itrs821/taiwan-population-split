@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>台灣人口分割線</title>
+  <meta name="description" content="在台灣地圖上畫一條線，把本島人口切成兩半。拖曳、旋轉分割線，即時看見兩側的人口與面積，找出屬於台灣的胡煥庸線。">
+  <meta property="og:title" content="台灣人口分割線">
+  <meta property="og:description" content="畫一條線，把台灣本島人口切成兩半，找出台灣的胡煥庸線。">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%232563eb'/><path d='M6 26 26 6' stroke='white' stroke-width='3.5' stroke-linecap='round'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main class="layout">
+    <aside class="panel">
+      <header>
+        <h1>台灣人口分割線</h1>
+        <p class="lede">胡煥庸線把中國切成「43% 的土地住了 94% 的人」與其餘部分。在台灣本島畫一條直線，又能切出什麼樣的兩半？拖曳線條可以平移，拖曳端點的圓鈕可以旋轉。</p>
+      </header>
+
+      <section class="sides" aria-live="polite">
+        <div class="side side-a">
+          <div class="side-name"><span class="swatch"></span><span id="name-a">—</span></div>
+          <div class="big" id="pop-a">—</div>
+          <div class="sub" id="pop-a-abs">—</div>
+          <dl>
+            <div><dt>面積</dt><dd id="area-a">—</dd></div>
+            <div><dt>人口密度</dt><dd id="dens-a">—</dd></div>
+          </dl>
+        </div>
+        <div class="side side-b">
+          <div class="side-name"><span class="swatch"></span><span id="name-b">—</span></div>
+          <div class="big" id="pop-b">—</div>
+          <div class="sub" id="pop-b-abs">—</div>
+          <dl>
+            <div><dt>面積</dt><dd id="area-b">—</dd></div>
+            <div><dt>人口密度</dt><dd id="dens-b">—</dd></div>
+          </dl>
+        </div>
+      </section>
+
+      <section class="bars" aria-hidden="true">
+        <div class="bar-row"><span>人口</span><div class="bar"><i class="a" id="bar-pop"></i></div></div>
+        <div class="bar-row"><span>面積</span><div class="bar"><i class="a" id="bar-area"></i></div></div>
+      </section>
+
+      <p class="headline" id="headline"></p>
+
+      <section class="controls">
+        <label class="angle">
+          <span>線的角度</span>
+          <input type="range" id="angle" min="0" max="179.5" step="0.5" value="90">
+          <output id="angle-out">90°</output>
+        </label>
+        <div class="buttons">
+          <button data-action="lr" title="垂直線，左右兩側人口相等">左右平分</button>
+          <button data-action="tb" title="水平線，上下兩側人口相等">上下平分</button>
+          <button data-action="balance" title="保持目前角度，平移到人口相等的位置">此角度平分</button>
+          <button data-action="hu" class="primary" title="找出人口占比與面積占比差距最大的直線">找出台灣胡煥庸線</button>
+        </div>
+        <label class="check"><input type="checkbox" id="keep-balanced" checked> 旋轉時保持人口平分</label>
+      </section>
+
+      <section class="crossed">
+        <h2>這條線切過的縣市</h2>
+        <ul id="crossed"></ul>
+      </section>
+
+      <footer>
+        <p>人口：<span id="src-pop"></span>（<span id="period"></span>）。界線：<span id="src-geo"></span>。不含澎湖、金門、馬祖、綠島、蘭嶼、小琉球。</p>
+        <p>計算方式：每個村里的人口視為集中在其重心；面積依村里多邊形實際切割計算。</p>
+        <p>靈感來自 <a href="https://puntofisso.net/MapSplit/" target="_blank" rel="noopener">MapSplit</a>。<a href="https://github.com/" id="repo-link" target="_blank" rel="noopener">原始碼</a></p>
+      </footer>
+    </aside>
+
+    <section class="map" id="map">
+      <canvas id="canvas"></canvas>
+      <svg id="overlay">
+        <line id="line-hit" class="line-hit" data-role="line"></line>
+        <line id="line" class="line"></line>
+        <text id="label-a" class="map-label a"></text>
+        <text id="label-b" class="map-label b"></text>
+        <circle id="knob-1" class="knob" r="11" data-role="knob" data-sign="1"></circle>
+        <circle id="knob-2" class="knob" r="11" data-role="knob" data-sign="-1"></circle>
+      </svg>
+      <div class="zoom">
+        <button data-zoom="in" aria-label="放大">＋</button>
+        <button data-zoom="out" aria-label="縮小">－</button>
+        <button data-zoom="fit" aria-label="全島">⤢</button>
+      </div>
+      <div class="tooltip" id="tooltip" hidden></div>
+      <div class="legend" id="legend"></div>
+      <div class="loading" id="loading">載入資料中…</div>
+    </section>
+  </main>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

@@ -67,7 +67,7 @@ h2 { font-size: 13px; font-weight: 500; color: var(--muted); margin: 0 0 6px; }
 .sub { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
 dl { margin: 8px 0 0; display: grid; gap: 2px; font-size: 13px; }
 dl div { display: flex; justify-content: space-between; gap: 6px; }
-dt { color: var(--muted); }
+dt { color: var(--muted); white-space: nowrap; }
 dd { margin: 0; font-variant-numeric: tabular-nums; text-align: right; }
 
 .bars { display: grid; gap: 6px; }

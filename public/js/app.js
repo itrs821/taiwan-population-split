@@ -151,6 +151,19 @@ function setAttrs(el, attrs) {
   for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
 }
 
+// 標籤若超出地圖邊界就推回畫面內（窄螢幕時線常貼近邊緣）
+function keepInside(label, x, y) {
+  const margin = 8;
+  const box = label.getBBox();
+  if (!box.width) return;
+  let dx = 0, dy = 0;
+  if (box.x < margin) dx = margin - box.x;
+  else if (box.x + box.width > width - margin) dx = width - margin - (box.x + box.width);
+  if (box.y < margin) dy = margin - box.y;
+  else if (box.y + box.height > height - margin) dy = height - margin - (box.y + box.height);
+  if (dx || dy) setAttrs(label, { x: x + dx, y: y + dy });
+}
+
 function renderOverlay() {
   const [nx, ny] = normalOf(state.theta);
   const [dx, dy] = directionOf(state.theta);
@@ -174,11 +187,13 @@ function renderOverlay() {
   for (const [key, sign] of [['a', 1], ['b', -1]]) {
     const [x, y] = toScreen(pivot[0] + sign * nx * gap, pivot[1] + sign * ny * gap);
     const ux = sign * nx, uy = -sign * ny; // 螢幕座標中的方向
-    setAttrs($(`label-${key}`), {
+    const label = $(`label-${key}`);
+    setAttrs(label, {
       x, y,
       'text-anchor': ux > 0.3 ? 'start' : ux < -0.3 ? 'end' : 'middle',
       'dominant-baseline': uy > 0.3 ? 'hanging' : uy < -0.3 ? 'auto' : 'middle',
     });
+    keepInside(label, x, y);
   }
 }
 
@@ -241,8 +256,8 @@ function invalidate() {
   frame = requestAnimationFrame(() => {
     frame = 0;
     renderMap();
+    renderStats(); // 先更新標籤文字，renderOverlay 才能量到正確寬度
     renderOverlay();
-    renderStats();
   });
 }
 
